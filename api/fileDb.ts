@@ -26,7 +26,7 @@ const fileDb = {
     const product = {
       ...item,
       id: randomUUID(),
-      datetime:new Date().toISOString()
+      datetime: new Date().toISOString()
     };
     data.push(product);
 
