@@ -3,8 +3,6 @@ import {ICreateMessage} from '../type';
 import fileDb from '../fileDb';
 
 const messagesRouter = express.Router();
-
-
 messagesRouter.post('/', async (req, res) => {
 
   if (!req.body.author || !req.body.message) {
@@ -23,6 +21,9 @@ messagesRouter.post('/', async (req, res) => {
 
   res.send(saveMessage);
 });
+
+
+
 
 messagesRouter.get('/', async (req, res) => {
   const messages = await fileDb.getItems();

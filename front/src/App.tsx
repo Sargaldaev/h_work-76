@@ -1,10 +1,10 @@
 import React from 'react';
-import Form from './features/Form/Form';
+import Chat from './features/Chat/Chat';
 
 function App() {
   return (
    <>
-   <Form/>
+     <Chat/>
    </>
   );
 }

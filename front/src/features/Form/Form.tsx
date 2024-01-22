@@ -27,7 +27,7 @@ const Form = () => {
     } else {
       await dispatch(postData(messages));
 
-
+         setMessages({author:'',message:''})
     }
   };
 
