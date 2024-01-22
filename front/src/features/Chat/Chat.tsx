@@ -7,7 +7,7 @@ import Form from '../Form/Form';
 import dayjs from 'dayjs';
 
 const Chat = () => {
-  const { messages } = useSelector((state: RootState) => state.message);
+  const { messages,fetchLoad } = useSelector((state: RootState) => state.message);
   const [datetime, setDatetime] = useState<string>('');
   const dispatch: AppDispatch = useDispatch();
 
@@ -62,11 +62,27 @@ const Chat = () => {
         sx={{
           overflowY: 'scroll',
           borderRadius: '10px',
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar': {
+            width: '12px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'lightgray',
+            borderRadius: '6px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'transparent',
+          },
         }}
-        border="2px solid #000"
+        border="4px solid #000"
         padding="20px"
       >
-        {messages.map(item => {
+
+        {
+
+          fetchLoad ? "Load..." :
+
+          messages.map(item => {
           const messageDate = dayjs(item.datetime);
 
           const formattedDate =
@@ -79,13 +95,15 @@ const Chat = () => {
                   : messageDate.format('MM-DD');
 
           return (
-            <Box key={item.id} sx={{ width: '500px' }}>
+            <Box key={item.id} sx={{ width: '500px',position:'relative' }}>
               <Box
                 component="div"
                 sx={{
-                  border: '2px solid red',
                   padding: '20px',
                   marginBottom: '10px',
+                  background: 'rgb(106, 90, 205)',
+                  color:'white',
+                  borderRadius:'10px'
                 }}
               >
                 <Typography>
@@ -96,13 +114,16 @@ const Chat = () => {
                   <b> Message: </b>
                   {item.message}
                 </Typography>
-                <Typography>{formattedDate}</Typography>
+                <Typography
+                  sx={{position:'absolute',right:'15px',top:'10px'}}
+                > <b> Datetime: </b>{formattedDate}</Typography>
               </Box>
             </Box>
           );
         })}
       </Box>
       <Form />
+
     </Box>
   );
 };

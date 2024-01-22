@@ -22,9 +22,6 @@ messagesRouter.post('/', async (req, res) => {
   res.send(saveMessage);
 });
 
-
-
-
 messagesRouter.get('/', async (req, res) => {
   const messages = await fileDb.getItems();
 

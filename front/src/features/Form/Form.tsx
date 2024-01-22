@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Box, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
-import Button from '@mui/material/Button';
-import { AppDispatch } from '../../app/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../../store/messagesThunk';
 import { IMessageCreate } from '../../type';
+import SendIcon from '@mui/icons-material/Send';
 
 
 const Form = () => {
   const dispatch: AppDispatch = useDispatch();
+  const {postLoad} = useSelector((state: RootState) => state.message);
+
   const [messages, setMessages] = useState<IMessageCreate>({
     author: '',
     message: ''
@@ -23,11 +25,11 @@ const Form = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!messages.message || !messages.author) {
-      alert('Поле не должно быть пустым');
+      alert('Заполните все поля');
     } else {
       await dispatch(postData(messages));
 
-         setMessages({author:'',message:''})
+      setMessages({author: '', message: ''});
     }
   };
 
@@ -36,7 +38,8 @@ const Form = () => {
       component="form"
       onSubmit={onSubmit}
       display="flex"
-      sx={{'& > :not(style)': {m: 1}}}
+      sx={{'& > :not(style)': {m: 1}, background: 'rgb(180, 180, 180)', borderRadius: '20px', marginTop: '10px'}}
+
     >
       <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
         <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}}/>
@@ -54,13 +57,18 @@ const Form = () => {
         id="filled-multiline-static"
         label="Message"
         multiline
-        rows={4}
+        rows={2}
         variant="filled"
         name="message"
         onChange={onChange}
         value={messages.message}
       />
-      <Button variant="contained" type="submit">Send</Button>
+      <Button variant="contained" type="submit">
+        {
+          postLoad ? 'load' :
+            <SendIcon/>
+        }
+      </Button>
     </Box>
   );
 };
